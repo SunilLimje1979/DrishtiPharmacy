@@ -132,7 +132,7 @@ def approvedDoctor(request):
             print(approvedata)
         else:
             approvedata=[]
-            return HttpResponse('no approved doctor')
+            # return HttpResponse('no approved doctor')
         
         return render(request,'main/approvedDoctor.html',{'approvedata':approvedata})
     else:   

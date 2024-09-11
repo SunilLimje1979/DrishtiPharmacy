@@ -116,7 +116,7 @@
                     <span class="doctor-count">Total: {{ approvedata|length }}</span>
                 </div>
             </div>
-
+            {% if approvedata %}
             <!-- Search Bar -->
             <div class="search-bar">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search by Doctor name or phone number">
@@ -130,6 +130,11 @@
                 </div>
                 {% endfor %}
             </div>
+            {%else%}
+            <div>
+                <h2>No Doctor Approved </h2>
+            </div>
+            {%endif%}
         </div>
 
         <!-- Get Doctor Details -->
