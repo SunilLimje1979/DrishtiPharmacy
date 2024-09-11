@@ -79,15 +79,13 @@ def medicalshopRegisteration(request):
             "pharmacist_type": 1, # 1means external
         }
         print(api_data)
-        # api_res = requests.post('http://13.233.211.102/medicalrecord/api/insert_pharmacist/',json=api_data)
-        # print(api_res.text)
-        api_res = {"message_code":1000,"message_text":"Pharmacist details inserted successfully.","message_data":{"pharmacist_id":1,"shop_name":"Appwelt MedicHub","shop_address":"jagtap Chowk ,Wanawadi","shop_contact_number":"9012345643","shop_owner_name":"Sunil limje","shop_owner_number":"9012345676","pharmacist_username":"appwelthub","pharmacist_password":"appwelthub123","pharmacist_token":"VpuJlDGDcTxVgVili0azmVIaqhXesgj4","pharmacist_type":1,"created_on":1725367039,"is_deleted":0},"message_debug":[]}
-        if(api_res.get('message_code')==1000):
+        api_res = requests.post('http://13.233.211.102/medicalrecord/api/insert_pharmacist/',json=api_data)
+        print(api_res.text)
+         
+        if(api_res.json().get('message_code')==1000):
             return redirect(Login)
-        # if(api_res.json().get('message_code')==1000):
-        #     return redirect(Login)
-        # else:
-        #     return redirect(medicalshopRegisteration)
+        else:
+            return redirect(medicalshopRegisteration)
 
 
 
