@@ -96,7 +96,7 @@ def generate_qr_code(request):
         return redirect(Login)
     
     print(pharmacist_token)
-    url = f'http://127.0.0.1:8002/DoctorCollection/approvePharmacy/?pharmacy_token={pharmacist_token}'
+    url = f'https://drishtis.app/DoctorCollection/approvePharmacy/?pharmacy_token={pharmacist_token}'
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
