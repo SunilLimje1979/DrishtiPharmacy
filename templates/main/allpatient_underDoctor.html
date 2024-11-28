@@ -15,7 +15,7 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .patient-card {
+        /* .patient-card {
             background-color: #71d4c895;
             border: 1px solid #ddd;
             padding: 15px;
@@ -24,6 +24,36 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        } */
+        .patient-card {
+            background-color: white;
+            padding: 10px; /* Increased padding for more space inside the card */
+            margin-bottom: 10px; /* Increased margin for better spacing between cards */
+            border-radius: 8px; /* Slightly more rounded corners */
+            border: 1px solid #71d4c895; /* Added a colored border */
+            
+            /* Enhanced shadow effect */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            
+            /* Add smooth hover effect */
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Add a hover effect to make the card pop */
+        .patient-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* More intense shadow on hover */
+            transform: translateY(-5px); /* Slight lift effect */
+        }
+
+        /* Optional: Adding a subtle background hover effect */
+        .patient-card:hover {
+            background-color: #fafafa;
         }
 
         .patient-info {
@@ -41,7 +71,7 @@
 
         .pdf-icon {
             font-size: 24px;
-            color: black;
+            color: #008373;
             cursor: pointer;
             margin-right: 10px; /* Adjust margin for spacing */
         }
@@ -112,12 +142,12 @@
 
         .refresh-icon {
             font-size: 24px;
-            color: #007bff;
+            color: #FF9632;
             cursor: pointer;
             margin-left: 20px;
         }
         .refresh-icon:hover {
-            color: #0056b3; /* Darker color on hover */
+            color: #f37f12; /* Darker color on hover */
         }
 
 
@@ -128,7 +158,7 @@
     <div class="container">
         <div class="data-block1">
             <div class="container-fluid d-flex justify-content-between align-items-center">
-                <span class="navbar-brand1">Prescriptions</span>
+                <a class="navbar-brand1" href="{% url 'approvedDoctor' %}"><i class="fas fa-arrow-left"> </i><span class="navbar-brand1">Prescriptions</span></a>
                 <span class="doctor-count">Total: {{ prescriptions|length }}</span>
             </div>
         </div>

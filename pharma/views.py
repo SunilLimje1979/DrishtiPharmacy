@@ -21,9 +21,9 @@ def Login(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['pass1']
-        print(username, password)
+        #print(username, password)
         api_res = requests.post('http://13.233.211.102/medicalrecord/api/pharmacistLogin/',json={'username':username,'password':password})
-        print(api_res.text)
+        #print(api_res.text)
         if(api_res.json().get('message_code')==1000):
             request.session['user']= api_res.json().get('message_data')
             return redirect(index)
@@ -40,9 +40,9 @@ def Login(request):
 def index(request):
     if('user' in request.session):
         api_res=requests.post('http://13.233.211.102/medicalrecord/api/get_pharmacist_stats/',json={'pharmacist_id':request.session.get('user').get('pharmacist_id')})
-        print(api_res.text)
+        #print(api_res.text)
         data= api_res.json().get('message_data')
-        print(data)
+        #print(data)
         return render(request, 'index.html',{'data':data})
     else:   
         return redirect(Login)
@@ -66,7 +66,7 @@ def medicalshopRegisteration(request):
     
     else:
         form_data=request.POST
-        print(form_data)
+        #print(form_data)
 
         api_data = {
             "shop_name": form_data.get('shop_name'),
@@ -78,9 +78,9 @@ def medicalshopRegisteration(request):
             "pharmacist_password": form_data.get('password'),
             "pharmacist_type": 1, # 1means external
         }
-        print(api_data)
+        #print(api_data)
         api_res = requests.post('http://13.233.211.102/medicalrecord/api/insert_pharmacist/',json=api_data)
-        print(api_res.text)
+        #print(api_res.text)
          
         if(api_res.json().get('message_code')==1000):
             return redirect(Login)
@@ -95,7 +95,7 @@ def generate_qr_code(request):
     else:   
         return redirect(Login)
     
-    print(pharmacist_token)
+    #print(pharmacist_token)
     url = f'https://drishtis.app/DoctorCollection/approvePharmacy/?pharmacy_token={pharmacist_token}'
     qr = qrcode.QRCode(
         version=1,
@@ -126,10 +126,10 @@ def generate_qr_code(request):
 def approvedDoctor(request):
     if('user' in request.session):
         api_res = requests.post('http://13.233.211.102/medicalrecord/api/get_pharmacist_doctor_bypharmacistid/',json={'pharmacist_id':request.session.get('user').get('pharmacist_id')})
-        print(api_res.text)
+        #print(api_res.text)
         if(api_res.json().get('message_code')==1000):
             approvedata = api_res.json().get('message_data')
-            print(approvedata)
+            #print(approvedata)
         else:
             approvedata=[]
             # return HttpResponse('no approved doctor')
@@ -142,12 +142,12 @@ def approvedDoctor(request):
 def get_patient_under_doctor(request ,id):
     doctor_id=id
     pharmacist_id = request.session.get('user').get('pharmacist_id')
-    print(doctor_id,pharmacist_id)
+    #print(doctor_id,pharmacist_id)
     api_res = requests.post('http://13.233.211.102/medicalrecord/api/get_patientdetails_by_doctor_pharmacist_id/',json={'doctor_id':doctor_id,'pharmacist_id':pharmacist_id})
-    print(api_res.text)
+    #print(api_res.text)
     if(api_res.json().get('message_code')==1000):
         prescriptions= api_res.json().get('message_data')
-        print(prescriptions)
+        #print(prescriptions)
     
     else:
         prescriptions=[]
@@ -160,16 +160,16 @@ def update_pharma_status(request):
         try:
             data = json.loads(request.body)
             prescribepharmacist_id = data.get('prescribepharmacist_id')
-            print(prescribepharmacist_id)
+            #print(prescribepharmacist_id)
             pharma_status= int(data.get('status'))
-            print(pharma_status)
+            #print(pharma_status)
             #Call the external API to reset the password
             api_response = requests.post('http://13.233.211.102/medicalrecord/api/update_pharma_status/', json={
                 'prescribepharmacist_id': prescribepharmacist_id,
                 'pharma_status': pharma_status
             })
 
-            print(api_response.text)
+            #print(api_response.text)
             # Parse the API response
             response_data = api_response.json()
             response_data['message_code']=1000
@@ -191,10 +191,10 @@ def get_pdf_url(request):
             consultation_id = data.get('consultation_id')
             patient_id = data.get('patient_id')
             doctor_id = data.get('doctor_id')
-            print(consultation_id,patient_id,doctor_id)
+            #print(consultation_id,patient_id,doctor_id)
             # Assuming you have doctor_id, patient_id, and consultation_id variables
             pdf_url = f"http://13.233.211.102/medicalrecord/static/prescriptionpdfs/{doctor_id}{patient_id}{consultation_id}.pdf"
-            print(pdf_url)
+            #print(pdf_url)
 
             response_data={}
             response_data['message_code']=1000
@@ -227,12 +227,12 @@ def filter_patients(request):
             if(end_date):
                 api_data['end_date']=end_date
 
-            print(api_data)
+            #print(api_data)
 
             # Send the request to the API
             api_url = "http://13.233.211.102/medicalrecord/api/filter_patientdetails_by_options/"
             response = requests.post(api_url, json=api_data)
-            print(response.text)
+            #print(response.text)
             response_data = response.json()
 
             if(response_data.get('message_code')==1000):
@@ -245,6 +245,54 @@ def filter_patients(request):
             response_data['message_text'] = str(e)
     
     return JsonResponse(response_data)
+
+
+from time import time
+###########################Deal#######################
+def showDeals(request):
+    if('user' in request.session):
+        res = requests.post('http://13.233.211.102/masters/api/get_active_deals_by_visible_to/',json={"visible_to":"2","user_id":request.session.get('user').get('pharmacist_id')}) #here '2' pass as a string means Pharmacy
+        #print(res.text)
+        if(res.json().get('message_code')==1000):
+            alldeals = res.json().get('message_data')
+        
+        else:
+            alldeals = []
+        
+        return render(request,'main/showDeals.html',{'alldeals':alldeals,"timestamp":int(time())})
+    
+    else:
+        return redirect(Login)
+
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def handle_deal_action(request):
+    if request.method == 'POST':
+        deal_id = request.POST.get('deal_id')
+        DealAction_id = request.POST.get('DealAction_id')
+        action_type = request.POST.get('action_type')
+         
+        #print(deal_id,DealAction_id,action_type)
+        
+        # Make request to external API
+        response = requests.post(
+            'http://13.233.211.102/masters/api/update_deal_action_type_by_DealactionId/',
+            json={"deal_id":deal_id,"dealaction_id":DealAction_id,"dealactiontype":action_type}
+        )
+        #print(response.text)
+
+        # Check response status
+        if response.status_code == 200 and response.json().get('message_code') == 1000:
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({"success": False, "message": "Unable to perform action."})
+    
+    return JsonResponse({"success": False, "message": "Invalid request method."})
+
+
+
+
+
 
 
 

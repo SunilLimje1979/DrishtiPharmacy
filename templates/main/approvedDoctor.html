@@ -18,7 +18,6 @@
 
         .form-container {
             width: 65%;  
-            {% comment %} margin-top: 1px; {% endcomment %}
             padding: 1px;
             background-color: #f8f9fa;
             border-radius: 10px;
@@ -37,17 +36,49 @@
             font-size: 25px;
         }
 
-        .user-card {
-            background-color: #71d4c895;
-            border-radius: 7px;
-            margin-top: 5px;
-            padding: 6px;
+        /* .user-card {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             position: relative;
+        } */
+        .user-card {
+            background-color: white;
+            padding: 10px; /* Increased padding for more space inside the card */
+            margin-bottom: 10px; /* Increased margin for better spacing between cards */
+            border-radius: 8px; /* Slightly more rounded corners */
+            border: 1px solid #71d4c895; /* Added a colored border */
+            
+            /* Enhanced shadow effect */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            
+            /* Add smooth hover effect */
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
+
+        /* Add a hover effect to make the card pop */
+        .user-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* More intense shadow on hover */
+            transform: translateY(-5px); /* Slight lift effect */
+        }
+
+        /* Optional: Adding a subtle background hover effect */
+        .user-card:hover {
+            background-color: #fafafa;
+        }
+
 
         .user-info {
             font-size: 16px;
@@ -94,7 +125,7 @@
             border: 1px solid #ddd;
             padding: 7px;
             margin-bottom: 5px;
-            background-color: #109787;
+            background-color: #008373;
             border-radius: 10px;
         }
 
@@ -209,6 +240,6 @@
         });
     </script>
 
-{% endblock content %}
 </body>
 </html>
+{% endblock content %}
